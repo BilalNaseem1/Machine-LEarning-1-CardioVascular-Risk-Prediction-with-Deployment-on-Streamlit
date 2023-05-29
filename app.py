@@ -16,7 +16,8 @@ import pickle
 import shap
 import numpy as np
 import lime
-from lime import lime_tabularstr
+from lime import lime_tabular
+from sklearn.linear_model import LogisticRegression
 
 def get_clean_data():
   data = pd.read_csv("cvd_risk_data.csv")
@@ -177,21 +178,23 @@ def add_predictions(input_data):
     st.write("Probability of having No Risk: ", model.predict_proba(input_array_scaled)[0][0])
     st.write("Probability of having Risk: ", model.predict_proba(input_array_scaled)[0][1])
 
-    st.write("This app can assist medical professionals in making a diagnosis, but should not be used as a substitute for a professional diagnosis.")
+    st.write("Machine Learning I Final Project :CVD Risk Predictor.\n Submitted by: Bilal Naseem - ERP: 13216 \n Kanza Nasim ERP: 27259")
 
 def run_lime_prediction():
     data = get_clean_data()
-    model = pickle.load(open("model/LR_model.pkl", "rb"))
+    model = LogisticRegression()
     scaler = pickle.load(open("model/scaler.pkl", "rb"))
     X = data.drop(['TenYearCHD'], axis=1)
+    y = data['TenYearCHD']
+    model.fit(X,y)
     feats = X.columns
-    explainer = lime.lime_tabular.LimeTabularExplainer(feats.values, feature_names=feats.columns, class_names=['0', '1'])
+    explainer = lime.lime_tabular.LimeTabularExplainer(X.values, feature_names=X.columns, class_names=['0', '1'])
 
     # Select an instance from the test data for explanation
-    instance = feats.iloc[len(feats)-1]
+    instance = X.iloc[len(X)-1]
 
     # Explain the prediction for the selected instance
-    explanation = explainer.explain_instance(instance.values, model.predict_proba, num_features=len(feats.columns))
+    explanation = explainer.explain_instance(instance.values, model.predict_proba, num_features=len(X.columns))
 
     # Plot the Lime prediction graph
     fig = explanation.as_pyplot_figure()
@@ -208,7 +211,8 @@ def run_shap_prediction():
     X = data.drop(['TenYearCHD'], axis=1)
     feats = X.columns
     # Select an input instance for which you want to explain the predictions
-    input_instance = feats.iloc[len(feats)-1]  # Replace with your desired input instance
+    input_instance = X.iloc[len(X)-1]  # Replace with your desired input instance
+    
 
     # Create a SHAP explainer
     explainer = shap.Explainer(model, feats)
@@ -239,7 +243,7 @@ def main():
   
   with st.container():
     st.title("CardioVascular Risk Predictor")
-    st.write("This app predicts using a machine learning model whether a person is likely to .")
+    st.write("This app predicts using a machine learning model whether a person is likely to Develop Risk of CVD.")
   
   col1, col2 = st.columns([4,1])
   
@@ -247,12 +251,11 @@ def main():
     radar_chart = get_radar_chart(input_data)
     st.plotly_chart(radar_chart)
     run_lime_prediction()
+    # run_shap_prediction()
 
   
   with col2:
     add_predictions(input_data)
-
-
  
 if __name__ == '__main__':
   main()
