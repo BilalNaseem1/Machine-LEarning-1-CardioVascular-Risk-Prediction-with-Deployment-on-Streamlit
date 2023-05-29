@@ -63,7 +63,7 @@ def add_sidebar():
   
   slider_labels = [
         ("Age", "age"),
-        ("Cigerates per Day", "cigsPerDay"),
+        ("Cigarettes per Day", "cigsPerDay"),
         ("Total Cholestrol", "totChol"),
         ('BMI', "BMI"),
         ("Heart Rate", "heartRate"),
@@ -178,7 +178,7 @@ def add_predictions(input_data):
     st.write("Probability of having No Risk: ", model.predict_proba(input_array_scaled)[0][0])
     st.write("Probability of having Risk: ", model.predict_proba(input_array_scaled)[0][1])
 
-    st.write("Machine Learning I Final Project :CVD Risk Predictor.\n Submitted by: Bilal Naseem - ERP: 13216 \n Kanza Nasim ERP: 27259")
+    st.write("Machine Learning I Final Project: CVD Risk Predictor.\n Submitted by: Bilal Naseem - ERP: 13216 \n Kanza Nasim ERP: 27259")
 
 def run_lime_prediction():
     data = get_clean_data()
@@ -251,7 +251,7 @@ def main():
     radar_chart = get_radar_chart(input_data)
     st.plotly_chart(radar_chart)
     run_lime_prediction()
-    # run_shap_prediction()
+    run_shap_prediction()
 
   
   with col2:
