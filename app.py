@@ -251,7 +251,7 @@ def main():
     radar_chart = get_radar_chart(input_data)
     st.plotly_chart(radar_chart)
     run_lime_prediction()
-    # run_shap_prediction()
+    run_shap_prediction()
 
   
   with col2:
