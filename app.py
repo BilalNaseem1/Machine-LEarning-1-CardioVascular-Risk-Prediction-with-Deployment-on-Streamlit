@@ -152,7 +152,6 @@ def get_radar_chart(input_data):
 
 
 def add_predictions(input_data):
-    
     model = pickle.load(open("model/LR_model.pkl", "rb"))
     scaler = pickle.load(open("model/scaler.pkl", "rb"))
 
@@ -166,19 +165,21 @@ def add_predictions(input_data):
     input_array_scaled = scaler.transform(input_df)
 
     prediction = model.predict(input_array_scaled)
+    probability = model.predict_proba(input_array_scaled)[0][1]
 
     st.subheader("CardioVascular Risk Predictor")
     st.write("CVD Risk Present?")
-
-    if prediction[0] == 0:
-        st.write("<span class='diagnosis benign'>No</span>", unsafe_allow_html=True)
+    
+    if probability > 0.1:
+        st.write("<span class='diagnosis malicious'>Yes</span>", unsafe_allow_html=True)
     else:
-        st.write("<span class='diagnosis malicious'Yes</span>", unsafe_allow_html=True)
-
+        st.write("<span class='diagnosis benign'>No</span>", unsafe_allow_html=True)
+    
     st.write("Probability of having No Risk: ", model.predict_proba(input_array_scaled)[0][0])
-    st.write("Probability of having Risk: ", model.predict_proba(input_array_scaled)[0][1])
+    st.write("Probability of having Risk: ", probability)
 
     st.write("Machine Learning I Final Project: CVD Risk Predictor.\n Submitted by: Bilal Naseem - ERP: 13216 \n Kanza Nasim ERP: 27259")
+
 
 def run_lime_prediction():
     data = get_clean_data()
