@@ -215,14 +215,14 @@ def run_shap_prediction():
     
 
     # Create a SHAP explainer
-    explainer = shap.Explainer(model, feats)
+    explainer = shap.Explainer(model, X)
 
     # Generate SHAP values for the input instancec
     shap_values = explainer(input_instance)
     shap_values_matrix = np.array([shap_values.values])
 
     # Plot the SHAP values
-    figshap = shap.summary_plot(shap_values_matrix, feature_names=feats.columns)
+    figshap = shap.summary_plot(shap_values_matrix, feature_names=X.columns)
     st.subheader('SHAP Prediction')
     st.set_option('deprecation.showPyplotGlobalUse', False)
     st.pyplot(figshap)
@@ -251,7 +251,7 @@ def main():
     radar_chart = get_radar_chart(input_data)
     st.plotly_chart(radar_chart)
     run_lime_prediction()
-    # run_shap_prediction()
+    run_shap_prediction()
 
   
   with col2:
