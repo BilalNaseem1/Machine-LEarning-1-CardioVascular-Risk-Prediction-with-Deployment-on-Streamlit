@@ -215,10 +215,10 @@ def run_shap_prediction():
     
 
     # Create a SHAP explainer
-    explainer = shap.Explainer(model, X)
+    explainer = shap.Explainer(model)
 
     # Generate SHAP values for the input instancec
-    shap_values = explainer(input_instance)
+    shap_values = explainer.shap_values(input_instance)
     shap_values_matrix = np.array([shap_values.values])
 
     # Plot the SHAP values
