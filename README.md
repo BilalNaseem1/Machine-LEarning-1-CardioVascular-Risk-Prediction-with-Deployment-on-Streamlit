@@ -1,4 +1,4 @@
-# Machine-Learning-I-CardioVascular-Risk-Prediction-with-Deployment-on-Streamlit
+# CardioVascular Risk Prediction with Deployment on Streamlit
 This report presents details the steps and findings for the Machine Learning I Final Project, IBA Spring 2023.
 The Project focused on predicting cardiovascular disease. The dataset consisted of 3,390 observations and 17 attributes, encompassing demographic, behavioral, and medical information. The dataset was chosen after extensive search and came with challenges such as imbalanced target variable, null values, and skewed distributions. Extensive exploratory
 data analysis was conducted to gain insights into the dataset’s characteristics and uncover
